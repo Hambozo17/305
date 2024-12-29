@@ -1,0 +1,20 @@
+<!-- templates/display_measurements.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Measurement Results</h1>
+    <div class="result">
+        <p><strong>Temperature:</strong> {{ temperature }} °C</p>
+        <p><strong>Heart Rate:</strong> {{ bpm }} BPM</p>
+        {% if normal %}
+            <p style="color: green;">Your readings are within the normal range.</p>
+            <!-- Button to proceed to prediction -->
+            <a href="{{ url_for('proceed_to_prediction') }}" class="button">Proceed to Prediction</a>
+        {% else %}
+            <p style="color: red;">Your readings are outside the normal range.</p>
+            <p>Please consult a healthcare professional.</p>
+            <!-- Option to start over -->
+            <a href="{{ url_for('home') }}" class="button">Start Over</a>
+        {% endif %}
+    </div>
+{% endblock %}

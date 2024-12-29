@@ -1,0 +1,13 @@
+<!-- templates/abnormal_readings.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Abnormal Readings</h1>
+    <div class="result">
+        <p>Your readings are outside the normal range:</p>
+        <p><strong>Temperature:</strong> {{ temperature }} °C</p>
+        <p><strong>Heart Rate:</strong> {{ bpm }} BPM</p>
+        <p>Please consult a healthcare professional.</p>
+    </div>
+    <a href="/" class="back-button">Back to Home</a>
+{% endblock %}

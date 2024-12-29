@@ -1,0 +1,10 @@
+<!-- templates/start_measurement.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Start Measurement</h1>
+    <p>Click the button below to begin measurements.</p>
+    <form method="post" action="{{ url_for('start_measurement') }}">
+        <button type="submit">Start Measurement</button>
+    </form>
+{% endblock %}

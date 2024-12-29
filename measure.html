@@ -1,0 +1,69 @@
+<!-- templates/measure.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Measure {{ measurement.capitalize() }}</h1>
+
+    {% if measurement == 'temperature' %}
+        <p>Please place the thermometer under your tongue. Measurement will take approximately 10 seconds.</p>
+        <div id="result">
+            <p>Measuring temperature...</p>
+        </div>
+    {% elif measurement == 'pulse' %}
+        <p>Please place your finger on the pulse sensor.</p>
+        <div id="result">
+            <p>Measuring pulse rate...</p>
+        </div>
+    {% endif %}
+
+    <!-- Option to cancel and restart -->
+    <form action="/" method="get">
+        <button type="submit" class="back-button">Cancel and Restart</button>
+    </form>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    var measurement = "{{ measurement }}";
+    console.log("Current measurement:", measurement);
+
+    if (measurement === 'temperature') {
+        // Simulate a 10-second wait for temperature measurement
+        setTimeout(function () {
+            fetch('/simulate_temperature')
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Simulated temperature data:", data);
+                    window.location.href = "{{ url_for('measure') }}";
+                })
+                .catch(error => {
+                    console.error('Error during temperature simulation:', error);
+                });
+        }, 10000); // 10,000 milliseconds = 10 seconds
+    } else if (measurement === 'pulse') {
+        // Poll the server for pulse data
+        function fetchSensorData() {
+            fetch('/get_sensor_data')
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Received data from /get_sensor_data:", data);
+                    if ('pulse' in data && data.pulse !== null) {
+                        // Pulse data received
+                        console.log("Pulse data received:", data.pulse);
+                        window.location.href = "{{ url_for('measure') }}";
+                    } else if (data.done) {
+                        // All measurements completed
+                        window.location.href = "{{ url_for('display_measurements') }}";
+                    } else {
+                        setTimeout(fetchSensorData, 1000); // Retry after 1 second
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching sensor data:', error);
+                    setTimeout(fetchSensorData, 1000); // Retry after 1 second
+                });
+        }
+        window.onload = fetchSensorData;
+    }
+</script>
+{% endblock %}

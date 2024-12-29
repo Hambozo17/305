@@ -1,0 +1,18 @@
+<!-- templates/select_measurement.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Health Profile</h1>
+    <p>Please select the order in which you would like to perform the measurements:</p>
+    <form action="/select_measurement" method="post">
+        <div class="form-group">
+            <label for="first_measurement">Select First Measurement:</label>
+            <select id="first_measurement" name="first_measurement" required>
+                <option value="" disabled selected>Select Measurement</option>
+                <option value="temperature">Temperature</option>
+                <option value="pulse">Pulse</option>
+            </select>
+        </div>
+        <button type="submit">Start Measurements</button>
+    </form>
+{% endblock %}

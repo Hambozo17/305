@@ -1,0 +1,10 @@
+<!-- templates/result.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Prediction Result</h1>
+    <div class="result">
+        <p><strong>Predicted Drug:</strong> {{ predicted_drug }}</p>
+    </div>
+    <a href="/" class="back-button">Predict Another</a>
+{% endblock %}
